@@ -15,6 +15,10 @@ import javax.swing.border.BevelBorder;
 import modelo.Asiento;
 import modelo.Viajero;
 
+/**
+ *  Vista de un asiento a partir de un JLabel
+ * 
+ */
 public class AsientoVista extends JLabel {
   private OficinaVista vista;
   private static final int INC_FUENTE_DIA = 8;   
