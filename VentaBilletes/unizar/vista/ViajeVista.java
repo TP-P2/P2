@@ -1,5 +1,5 @@
 package vista;
-///
+
 import control.Agenda;
 import java.awt.Dimension;
 import java.awt.GridLayout;
