@@ -102,91 +102,62 @@ class ViajeVista extends JPanel {
   } 
   
   /**
-   *  Indica que día de la semana es el día uno para un mes
-   * 
-   */    
-  private int diaSemanaUnoMes(GregorianCalendar fecha) {
-    fecha.set(Calendar.DAY_OF_MONTH, 1);  
-    int diaSemanaUno = fecha.get(Calendar.DAY_OF_WEEK);
-    
-    // 1->domingo, 2->lunes, etc., ajustamos a 0-> lunes, 1-> martes, etc.
-    if (diaSemanaUno > 1) {
-      return diaSemanaUno - 2;
-    } else {
-      return 6;
-    }      
-  }
-  
-  /**
-   *  Inicia vista del mes
+   *  Inicia vista del viaje
    * 
    */   
-  private void iniciarMesVista() {
-    for (int semana = 0; semana < vista.NUM_SEMANAS; semana++) {
-      for (int diaSemana = 0; diaSemana < vista.NUM_DIAS_SEMANA; diaSemana++) {  
-         diasVista[semana][diaSemana].iniciar();
+  private void iniciarViajeVista() {
+    for (int fila = 0; fila < vista.NUM_FILAS; fila++) {
+      for (int asientoFila = 0; asientoFila < vista.NUM_ASIENTOS_POR_FILA; asientoFila++) {  
+         asientosVista[fila][asientoFila].iniciar();
       }
     }  
-  }
-  
-  /**
-   *  Indica si la fecha corresponde al día de hoy
-   * 
-   */  
-  private boolean esHoy(GregorianCalendar fecha) {
-    GregorianCalendar hoy = new GregorianCalendar();
-
-    return (fecha.get(Calendar.DAY_OF_MONTH) == hoy.get(Calendar.DAY_OF_MONTH)) &&            
-           (fecha.get(Calendar.MONTH) == hoy.get(Calendar.MONTH)) &&
-           (fecha.get(Calendar.YEAR) == hoy.get(Calendar.YEAR));
   }
   
   /**
    *  Pone días de mes vista
    * 
    */       
-  void ponerDias(GregorianCalendar fecha) {     
-    int dia = 1;
-    int mes = fecha.get(Calendar.MONTH);
-    int año = fecha.get(Calendar.YEAR);
-    int diaSemanaUnoMes = diaSemanaUnoMes(fecha);
+  void ponerAsientos(Asiento asiento) {     
+    int asiento = 1;
+    int viaje = ; //GETTER del txt con los viajes
     
-    iniciarMesVista();
+    iniciarViajeVista();
         
-    for (int semana = 0; semana < vista.NUM_SEMANAS; semana++) {
-      for (int diaSemana = 0; diaSemana < vista.NUM_DIAS_SEMANA; diaSemana++) { 
+    for (int fila = 0; fila < vista.NUM_FILAS; fila++) {
+      for (int asientoFila = 0; asientoFila < vista.NUM_ASIENTOS_POR_FILA; asientoFila++) { 
         
-        // salta huecos primera semana
-        if ((diaSemana < diaSemanaUnoMes) && (semana == 0)) {
+        // salta huecos primera fila
+    	  // necesario tener en cuenta los huecos vacíos del pasillo y salida del autobús
+        /*if () {
           continue;
-        }
+        */}
         
-        DiaVista diaVista = diasVista[semana][diaSemana];
-        GregorianCalendar fechaDiaActual = new GregorianCalendar(año, mes, dia);
-        diaVista.ponerFecha(fechaDiaActual);
-        
-        if(esHoy(fechaDiaActual)) {
-          diaVista.ponerTexto(Integer.toString(dia), DiaVista.Formato.DESTACADO);          
+        AsientoVista asientoVista = asientosVista[fila][asientoFila];
+
+        if (/* asiento en el que se ha hecho clic */) {
+        	asientoVista.ponerTexto(Integer.toString(asiento), AsientoVista.Formato.DESTACADO);
         } else {
-          diaVista.ponerTexto(Integer.toString(dia));            
-        }
+        	asientoVista.ponerTexto(Integer.toString(asiento));
+        }	
+        // he cambiado ponerViajero por ponerTexto porque aquí creo que indicamos los nºs de asiento solamente
+        // tendremos que hacer otro para que cuando le demos clic a uno nos muestre información del viajero sentado
+        	
         
+        // igual no es necesario el try/catch
+        // el método estaOcupado() lo más seguro habrá que crearlo en la clase "Viajeros" que es = Recordatorios de Agenda
         try {
-          if (recordatorios.hayRecordatorio(fechaDiaActual)) { 
-            diaVista.ponerRecordatorio();            
+          if (viajero.estaOcupado(asiento)) { 
+            asientoVista.ponerOcupado();            
           }
         } catch (Exception e) {
-          if (Agenda.esModoDebug()) {
+          if (VentaBilletes.esModoDebug()) {
             DebugVista.devolverInstancia()
-              .mostrar(vista.ERROR_OBTENER_RECORDATORIO, e);
+              .mostrar(vista.ERROR_OBTENER_OCUPACION, e);
           }            
         }
 
-        dia++;
+        asiento++;
         
-        if (dia > fecha.getActualMaximum(Calendar.DAY_OF_MONTH)) {
-          return;
-        }
       }
     }
   }  
