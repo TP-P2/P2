@@ -107,7 +107,7 @@ public class AsientoVista extends JLabel {
   public void eliminarOcupado() {
     viajero = false;
     setBackground(colorNoSeleccionado);    
-  }
+  }  
   
   /**
    * Inicia asiento vista
