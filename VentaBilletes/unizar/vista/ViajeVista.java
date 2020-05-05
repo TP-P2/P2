@@ -14,14 +14,13 @@ import modelo.Recordatorios;
  * 
  */
 class ViajeVista extends JPanel {
-	// AJUSTAR ALTURA y ANCHURA
-  private static final int ALTURA_FILA = 100;
-  private static final int ANCHURA_COLUMNA = 10;
+  private static final int ALTURA_FILA = 14;
+  private static final int ANCHURA_COLUMNA = 5;
   private AsientoVista[][] asientosVista;
   private OficinaVista vista;
-  // ??? 
-  private Viajes viajes;
-  // ¿¿¿
+  // habrá que cambiar por Autobuses autobuses cuando la creemos
+  private Viaje viaje;
+
 
   public static final boolean RECIBE_EVENTOS_RATON = true;
   public static final boolean NO_RECIBE_EVENTOS_RATON = false;
@@ -30,16 +29,14 @@ class ViajeVista extends JPanel {
    *  Construye la vista del viaje
    * 
    */
-  ViajeVista(OficinaVista vista, Viajes viajes, boolean recibeEventosRaton) {   
+  ViajeVista(OficinaVista vista, Viaje viaje, boolean recibeEventosRaton) {   
     this.vista = vista;
     this.viajes = viajes;
     
     crearAsientos(recibeEventosRaton);
     
-    //FALTA cambiar NUM_SEMANAS por NUM_FILAS
-    //cambiar NUM_DIAS_SEMANA por NUM_ASIENTOS_POR_FILA
-    this.setPreferredSize(new Dimension(vista.NUM_SEMANAS * ALTURA_FILA, 
-                                        vista.NUM_DIAS_SEMANA * ANCHURA_COLUMNA));
+    this.setPreferredSize(new Dimension(vista.numFilas * ALTURA_FILA, 
+                                        vista.numColumnas * ANCHURA_COLUMNA));
   }
   
   /**
@@ -47,9 +44,8 @@ class ViajeVista extends JPanel {
    * 
    */  
   private void crearAsientos(boolean recibeEventosRaton) {
-	// FALTA NUM_ASIENTOS_POR_FILA y NUM_FILAS
-	int filas = vista.NUM_FILAS;
-	int asientos = vista.NUM_ASIENTOS_POR_FILA;
+	int filas = vista.numFilas;
+	int asientos = vista.numColumnas;
 
     setLayout(new GridLayout(filas, asientos));
     asientosVista = new AsientoVista[filas][asientos];
@@ -67,8 +63,8 @@ class ViajeVista extends JPanel {
    * 
    */  
   private AsientoVista buscarAsientoVista(Asiento asiento) {
-    for(int asiento = 0; asiento < vista.NUM_FILAS; asiento++) {
-      for(int fila = 0; fila < vista.NUM_ASIENTOS_POR_FILA; fila++) {
+    for(int asiento = 0; asiento < vista.numFilas; asiento++) {
+      for(int fila = 0; fila < vista.numColumnas; fila++) {
         Asiento asientoConcreto = asientosVista[asiento][fila].obtenerAsiento();
         // ¿¿ AÑADIR en AsientoVista un método que haga return de un asiento ?? obtenerAsiento()
         if ((asientoConcreto != null) && asientoConcreto.equals(asiento)) {
@@ -106,8 +102,8 @@ class ViajeVista extends JPanel {
    * 
    */   
   private void iniciarViajeVista() {
-    for (int fila = 0; fila < vista.NUM_FILAS; fila++) {
-      for (int asientoFila = 0; asientoFila < vista.NUM_ASIENTOS_POR_FILA; asientoFila++) {  
+    for (int fila = 0; fila < vista.numFilas; fila++) {
+      for (int asientoFila = 0; asientoFila < vista.numColumnas; asientoFila++) {  
          asientosVista[fila][asientoFila].iniciar();
       }
     }  
@@ -123,8 +119,8 @@ class ViajeVista extends JPanel {
     
     iniciarViajeVista();
         
-    for (int fila = 0; fila < vista.NUM_FILAS; fila++) {
-      for (int asientoFila = 0; asientoFila < vista.NUM_ASIENTOS_POR_FILA; asientoFila++) { 
+    for (int fila = 0; fila < vista.numFilas; fila++) {
+      for (int asientoFila = 0; asientoFila < vista.numColumnas; asientoFila++) { 
         
         // salta huecos primera fila
     	  // necesario tener en cuenta los huecos vacíos del pasillo y salida del autobús
