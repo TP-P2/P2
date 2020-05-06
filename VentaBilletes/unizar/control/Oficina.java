@@ -25,14 +25,11 @@ import vista.OficinaVista;
  * Oficina de venta de billetes
  * 
  */
-public class Oficina {
+public class Oficina implements OyenteVista {
 	public static String VERSION = "Venta de billetes 1.3";
-	private final static String INFO_VIAJES = "InformacionViajes.txt";
-	private int totalViajes;
-	private List<Viaje> viajes = new ArrayList<>();
-
+	private Viajes viajes;
 	private OficinaVista vista;
-	
+
 	private static boolean modoDebug = false;
 
 	/**
@@ -40,97 +37,32 @@ public class Oficina {
 	 * 
 	 */
 	public Oficina() throws FileNotFoundException {
-		cargarViajes(INFO_VIAJES);
+
+		viajes = new Viajes();
+		vista = OficinaVista.instancia(this, viajes);
+		viajes.nuevoObservador(vista);
 	}
 
 	/**
-	 * Carga la información de los viajes contenida en el fichero
-	 * 
+	 * Recibe eventos de vista
+	 *
 	 */
-	private void cargarViajes(String nombreFicheroViajes) throws FileNotFoundException {
-		File ficheroInfoViajes = new File(nombreFicheroViajes);
-		if (ficheroInfoViajes != null) {
-			try {
-				Scanner sc = new Scanner(ficheroInfoViajes);
-				if (sc.hasNextInt()) {
-					totalViajes = sc.nextInt();
-				}
+	public void eventoProducido(Evento evento, Object obj) {
+		switch (evento) {
+		case NUEVO_VIAJERO:
+			Tupla<Viaje, Asiento, String, String> tupla = (Tupla<Viaje, Asiento, String, String>) obj;
+			viajes.nuevo(tupla.a, tupla.b, new Viajero(tupla.c, tupla.d));
+			break;
 
-				for (int i = 0; i < totalViajes; i++) {
-					if (sc.hasNext()) {
-						sc.nextLine(); // Línea en blanco como separador de viajes
-						Viaje viaje = new Viaje();
-						viaje.cargarViaje(sc);
-						viajes.add(viaje);
-					}
-				}
-				sc.close();
-			} catch (FileNotFoundException e1) {
-				mensajeError(OficinaVista.FICHERO_NO_ENCONTRADO, e1);
-			} catch (Exception e2) {
-				mensajeError(OficinaVista.VIAJES_NO_LEIDOS, e2);
-			}
+		case ELIMINAR_VIAJERO:
+			GregorianCalendar fecha = (GregorianCalendar) obj;
+			viajes.eliminar(fecha);
+			break;
+
+		case SALIR:
+			System.exit(0);
+			break;
 		}
-
-	}
-
-	/**
-	 * Ocupa un Asiento de un Autobus
-	 * 
-	 */
-	public Viaje.ResultadoOperacion ocuparAsiento(String idViaje, int numAsiento,
-			Viajero viajero) {
-		Viaje viaje = getViajePorId(idViaje);
-		if (viaje == null)
-			return Viaje.ResultadoOperacion.VIAJE_NO_EXISTE;
-		return viaje.ocuparAsiento(numAsiento, viajero);
-	}
-
-	/**
-	 * Desocupa un Asiento de un Autobus
-	 * 
-	 */
-	public Viaje.ResultadoOperacion desocuparAsiento(String idViaje, int numAsiento) {
-		Viaje viaje = getViajePorId(idViaje);
-		if (viaje == null)
-			return Viaje.ResultadoOperacion.VIAJE_NO_EXISTE;
-		return viaje.desocuparAsiento(numAsiento);
-	}
-
-	/**
-	 * Guarda en fichero la hoja de un Viaje
-	 * 
-	 */
-	public boolean generarHojaViaje(String idViaje) throws IOException {
-		Viaje viaje = getViajePorId(idViaje);
-		if (viaje != null) {
-			viaje.generarHoja();
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Devuelve la ocupación del Autobus asignado a un Viaje como cadena de
-	 * caracteres
-	 */
-	public String obtenerOcupacion(String idViaje) {
-		Viaje viaje = getViajePorId(idViaje);
-		if (viaje != null)
-			return viaje.obtenerOcupacion();
-		return null;
-	}
-
-	/**
-	 * Obtiene el Viaje correspondiente a su identificador
-	 * 
-	 */
-	private Viaje getViajePorId(String idViaje) {
-		for (Viaje viaje : viajes) {
-			if (viaje != null && viaje.getId().equals(idViaje))
-				return viaje;
-		}
-		return null;
 	}
 
 	/**

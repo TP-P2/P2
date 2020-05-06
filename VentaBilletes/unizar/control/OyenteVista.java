@@ -12,8 +12,10 @@ package control;
  * Interfaz de escucha para los eventos de la IU
  */
 public interface OyenteVista {
-	public enum Evento{}
-	
+	public enum Evento {
+		NUEVO_VIAJERO, ELIMINAR_VIAJERO, SALIR
+	}
+
 	/**
 	 * Llamado para notificar un evento de la IU
 	 */

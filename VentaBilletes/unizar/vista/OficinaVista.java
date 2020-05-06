@@ -17,6 +17,7 @@ import java.util.Calendar;
 import modelo.Viaje;
 import modelo.Viajero;
 import modelo.Viajes;
+import modelo.Asiento;
 import modelo.Tupla;
 
 /**
@@ -36,7 +37,6 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
   
   private AsientoVista asientoVistaSeleccionado;
   private Asiento asientoVista;
-  private Viaje viajeVista;
   
   public static final int NUM_FILAS = 5;
   public static final int NUM_COLUMNAS = 14; 
@@ -62,6 +62,8 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
   /** Constantes para redimensionamiento */
   public static final int MARGEN_HORIZONTAL = 50;
   public static final int MARGEN_VERTICAL = 20;
+	public static final String FICHERO_NO_ENCONTRADO = null;
+	public static final String VIAJES_NO_LEIDOS = null;
   
   /**
    * Construye la vista de la oficina 
@@ -160,7 +162,7 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
     barra.add(botonViajeAnterior);
 
     barra.add(new JToolBar.Separator());
-    viaje = new JTextField(COLUMNAS_VIAJES);
+    viaje = new JTextField(COLUMNAS_VIAJE);
     viaje.setMaximumSize(viaje.getPreferredSize());
     viaje.setEditable(false);
     viaje.setHorizontalAlignment(JTextField.CENTER);
