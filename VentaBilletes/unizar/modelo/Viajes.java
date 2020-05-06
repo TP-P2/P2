@@ -24,13 +24,13 @@ public class Viajes {
 	public static String NUEVO_VIAJERO = "Nuevo viajero";
 	public static String ELIMINAR_VIAJERO = "Eliminar viajero";
 
-  /**
-  * Construye recordatorios
-  */   
-  public Viajes() {
-    viajes = new HashMap<>();  
-    observadores = new PropertyChangeSupport(this);
-  }
+	/**
+	 * Construye viajes
+	 */
+	public Viajes() {
+		viajes = new HashMap<>();
+		observadores = new PropertyChangeSupport(this);
+	}
 
 	/**
 	 * Añade nuevo observador de los viajes

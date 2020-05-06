@@ -12,7 +12,9 @@ package control;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -27,7 +29,7 @@ public class Oficina {
 	public static String VERSION = "Venta de billetes 1.3";
 	private final static String INFO_VIAJES = "InformacionViajes.txt";
 	private int totalViajes;
-	private Set<Viaje> viajes = new HashSet<>();
+	private List<Viaje> viajes = new ArrayList<>();
 
 	private OficinaVista vista;
 	
