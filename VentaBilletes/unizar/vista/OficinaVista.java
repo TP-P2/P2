@@ -29,7 +29,9 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
   
   private static OficinaVista instancia = null;  // es singleton
   private JFrame ventana;
-  private ViajeVista viajeVista;
+  private ViajeVista viajeVistaSeleccionado;
+  private Viaje viajeVista;
+  
   private JTextArea viajesVista;
   private JTextField viaje;
   private JButton botonNuevo;
@@ -75,8 +77,8 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
     
     // inicia vista al viaje actual
     // ------o igual con viajeVista------
-    asientoVista = new Asiento();
-    ponerViajeVista(asientoVista);  
+    viajeVista = viajes.getViajePorId(los_viajes[0]);
+    ponerViajeVista(viajeVista); 
   }  
   
   /**
@@ -103,8 +105,8 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
     
     JPanel panelViaje = new JPanel();
     panelViaje.setLayout(new FlowLayout());   
-    viajeVista = new ViajeVista(this, viajes, ViajeVista.RECIBE_EVENTOS_RATON);
-    panelViaje.add(viajeVista);
+    viajeVistaSeleccionado = new ViajeVista(this, viajes, ViajeVista.RECIBE_EVENTOS_RATON);
+    panelViaje.add(viajeVistaSeleccionado);
     ventana.getContentPane().add(panelViaje, BorderLayout.CENTER);
     
     JPanel panelViajes = new JPanel();
@@ -179,8 +181,7 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
     
     panelNorte.add(barra);
   }  
-       
-       
+           
   /**
    * Crea vista del texto del viajero 
    */   
@@ -208,8 +209,8 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
     if (texto != null && ! texto.equals("")) {            
       oyenteVista.eventoProducido(
               OyenteVista.Evento.NUEVO_VIAJERO, 
-              new Tupla<Asiento, String>(
-                 asientoVistaSeleccionado.obtenerAsiento(), texto)); 
+              new Tupla<Viaje, Asiento, String, String>(
+                 viajeVistaSeleccionado.obtenerViaje(), asientoVistaSeleccionado.obtenerAsiento(), texto, "")); 
     }
   }
   
@@ -230,20 +231,21 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
 
       case VIAJE_ANTERIOR:
     	  //-----cambiar asientoVista por viajeVista??----
-        asientoVista.add(los_viajes, -1);
-        ponerViajeVista(asientoVista);                          
+       // asientoVista.add(los_viajes, -1);
+        ponerViajeVista(viajeVista);                          
         break;           
 
       case VIAJE_SIGUIENTE:
     	  //-----cambiar asientoVista por viajeVista??---- maybe
-        asientoVista.add(los_viajes, 1);
-        ponerViajeVista(asientoVista);
+        //asientoVista.add(los_viajes, 1);
+        ponerViajeVista(viajeVista);
         break;           
                       
       case ACERCA_DE:
         JOptionPane.showMessageDialog(ventana, Oficina.VERSION, 
            ACERCA_DE, JOptionPane.INFORMATION_MESSAGE);   
         break;
+    //VIAJE_ANTERIOR Y VIAJE_SIGUIENTE --> desplegable y además seleccionar por fecha
     }
   }  
   
@@ -257,11 +259,11 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
   /**
    * Inicia viaje vista para un asiento 
    */  
-  public void ponerViajeVista(Asiento asiento) {
+  public void ponerViajeVista(Viaje esteViaje) {
     ponerTextoViajero("");      
     // ------- habrá que ver como nos desplazamos por los distintos viajes--------
-    viaje.setText(los_viajes[0]);
-    viajeVista.ponerAsientos(asiento);
+    viaje.setText(viajeVistaSeleccionado.toString());
+    viajeVistaSeleccionado.ponerAsientos(esteViaje);
     activarBotonNuevoViajero(false);  
     activarBotonEliminarViajero(false);      
   }  
@@ -283,7 +285,7 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
       viajes.obtenerViajero(asientoVista.obtenerAsiento()); // día 87 de la cuarentena, me sigo planteando si cambiar obtenerAsiento por obtenerViaje
                 
     if (viajero != null) {
-      ponerTextoViajero(viajero.obtenerTexto());
+      ponerTextoViajero(viajero.toString());
       activarBotonEliminarViajero(true);
     } else {
       activarBotonNuevoViajero(true);
@@ -313,12 +315,12 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
     Asiento asiento = (Asiento)evt.getNewValue();
 
     if (evt.getPropertyName().equals(Viajes.NUEVO_VIAJERO)) {
-      viajeVista.ponerViajero(asiento);        
+      viajeVistaSeleccionado.ponerOcupado(asiento);        
       ponerTextoViajero(
-        viajes.obtenerViajero(asiento).obtenerTexto());    
+        viajes.obtenerViajero(asiento).toString());    
     }
     else if (evt.getPropertyName().equals(Viajes.ELIMINAR_VIAJERO)) {
-      viajeVista.eliminarViajero(asiento);  
+    	viajeVistaSeleccionado.eliminarOcupado(asiento);  
       ponerTextoViajero("");  
       activarBotonEliminarViajero(false);      
     }

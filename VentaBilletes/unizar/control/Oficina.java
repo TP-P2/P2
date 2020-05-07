@@ -36,9 +36,14 @@ public class Oficina implements OyenteVista {
 	 * Construye una Oficina
 	 * 
 	 */
-	public Oficina() throws FileNotFoundException {
+	public Oficina() {
 
-		viajes = new Viajes();
+		try {
+			viajes = new Viajes();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		vista = OficinaVista.instancia(this, viajes);
 		viajes.nuevoObservador(vista);
 	}
@@ -55,8 +60,8 @@ public class Oficina implements OyenteVista {
 			break;
 
 		case ELIMINAR_VIAJERO:
-			GregorianCalendar fecha = (GregorianCalendar) obj;
-			viajes.eliminar(fecha);
+			Tupla<Viaje, Asiento, String, String> tuplaso = (Tupla<Viaje, Asiento, String, String>) obj;
+			viajes.eliminar(tuplaso.a, tuplaso.b);
 			break;
 
 		case SALIR:
@@ -65,31 +70,12 @@ public class Oficina implements OyenteVista {
 		}
 	}
 
-	/**
-	 * Escribe mensaje error
-	 * 
-	 */
-	private void mensajeError(String mensaje, Exception e) {
-		if (esModoDebug()) {
-			e.printStackTrace();
-		}
-		// vista.mensajeDialogo(mensaje);
-	}
-
 	public static boolean esModoDebug() {
 		return modoDebug;
 	}
 
-	/**
-	 * Sobreescribe toString
-	 *
-	 */
-	@Override
-	public String toString() {
-		String s = "";
-		for (Viaje viaje : viajes) {
-			s += viaje;
-		}
-		return s;
+	public static void main(String[] args) {
+		new Oficina();
 	}
+
 }

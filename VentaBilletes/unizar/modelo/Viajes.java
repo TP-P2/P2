@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import control.Oficina;
 import vista.OficinaVista;
 
 /**
@@ -35,8 +36,7 @@ public class Viajes {
 	public static String ELIMINAR_VIAJERO = "Eliminar viajero";
 
 	/**
-	 * Construye viajes
-	 * 3
+	 * Construye viajes 3
 	 */
 	public Viajes() throws FileNotFoundException {
 		viajes = new ArrayList<>();
@@ -133,7 +133,7 @@ public class Viajes {
 	 * Obtiene el Viaje correspondiente a su identificador
 	 * 
 	 */
-	private Viaje getViajePorId(String idViaje) {
+	public Viaje getViajePorId(String idViaje) {
 		for (Viaje viaje : viajes) {
 			if (viaje != null && viaje.getId().equals(idViaje))
 				return viaje;
@@ -144,39 +144,55 @@ public class Viajes {
 	/**
 	 * Obtiene viajero para un asiento
 	 */
-	public Viajero obtenerViajero(Object asiento) {
-		return viajes.get(fecha); // MODIFICAR
+	public Viajero obtenerViajero(Asiento asiento) {
+		return asiento.getViajero();// MODIFICAR
 	}
 
 	/**
 	 * Indica si hay viajero para un asiento
 	 */
 	public boolean hayViajero(Asiento asiento) {
-		return (obtenerViaje(asiento) != null);
+		return (asiento.estaOcupado());
 	}
 
 	/**
 	 * Añade nuevo viajero
 	 */
-	public void nuevo(Viaje viaje, Asiento asiento, Viajero viajero) { 
-		viaje.ocuparAsiento(asiento.getNumero(), viajero); //comprobar !=null
-		this.observadores.firePropertyChange(NUEVO_VIAJERO, null,
-				asiento);
+	public void nuevo(Viaje viaje, Asiento asiento, Viajero viajero) {
+		viaje.ocuparAsiento(asiento.getNumero(), viajero); // comprobar !=null
+		this.observadores.firePropertyChange(NUEVO_VIAJERO, null, asiento);
 	}
 
 	/**
 	 * Elimina viajero para un asiento
 	 */
 	public void eliminar(Viaje viaje, Asiento asiento) {
-		viaje.desocuparAsiento(asiento.getNumero()); //comprobar !=null
+		viaje.desocuparAsiento(asiento.getNumero()); // comprobar !=null
 
 		this.observadores.firePropertyChange(ELIMINAR_VIAJERO, null, asiento);
 	}
+	
+	/**
+	 * Escribe mensaje error
+	 * 
+	 */
+	private void mensajeError(String mensaje, Exception e) {
+		if (Oficina.esModoDebug()) {
+			e.printStackTrace();
+		}
+		// vista.mensajeDialogo(mensaje);
+	}
 
 	/**
-	 * toString
+	 * Sobreescribe toString
+	 *
 	 */
+	@Override
 	public String toString() {
-		return viajes.toString();
+		String s = "";
+		for (Viaje viaje : viajes) {
+			s += viaje;
+		}
+		return s;
 	}
 }

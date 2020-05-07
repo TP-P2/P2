@@ -22,7 +22,7 @@ public class Asiento {
 	 * Construye un Asiento
 	 * 
 	 */
-	Asiento(int numero) {
+	public Asiento(int numero) {
 		this.numero = numero;
 		ocupado = false;
 	}
@@ -94,5 +94,9 @@ public class Asiento {
 			s = s + "\n";
 		}
 		return s;
+	}
+
+	public Viajero getViajero() {
+		return viajero;
 	}
 }

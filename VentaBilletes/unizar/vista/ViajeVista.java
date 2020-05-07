@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import modelo.Asiento;
+import modelo.Viaje;
 import modelo.Viajes;
 
 /**
@@ -16,13 +17,13 @@ import modelo.Viajes;
  * 
  */
 class ViajeVista extends JPanel {
-	private static final int ALTURA_FILA = 14;
-	private static final int ANCHURA_COLUMNA = 5;
+	private static final int ALTURA_FILA = 200;
+	private static final int ANCHURA_COLUMNA = 25;
 	private AsientoVista[][] asientosVista;
 	private OficinaVista vista;
-	// habrá que cambiar por Autobuses autobuses cuando la creemos
 	private Viajes viajes;
-
+	private ViajeVista viajeVistaSeleccionado;
+	private Viaje viajeVista;
 	public static final boolean RECIBE_EVENTOS_RATON = true;
 	public static final boolean NO_RECIBE_EVENTOS_RATON = false;
 
@@ -113,52 +114,50 @@ class ViajeVista extends JPanel {
 	}
 
 	/**
-   *  Pone días de mes vista
-   * 
-   */       
-  void ponerAsientos(Asiento asiento) {     
-    int asiento = 1;
-    int viaje = asiento.get; //GETTER del txt con los viajes
-    
-    iniciarViajeVista();
-        
-    for (int fila = 0; fila < vista.NUM_FILAS; fila++) {
-      for (int asientoFila = 0; asientoFila < vista.NUM_COLUMNAS; asientoFila++) { 
-        
-        // salta huecos primera fila
-    	  // necesario tener en cuenta los huecos vacíos del pasillo y salida del autobús
-        /*if () {
-          continue;
+	 * Pone días de mes vista
+	 * 
+	 */
+	void ponerAsientos(Viaje viaje) {
+		int asiento = 1;
 
-    	  }        */
-        
-        AsientoVista asientoVista = asientosVista[fila][asientoFila];
+		iniciarViajeVista();
 
-        if (/* asiento en el que se ha hecho clic */) {
-        	asientoVista.ponerTexto(Integer.toString(asiento), AsientoVista.Formato.DESTACADO);
-        } else {
-        	asientoVista.ponerTexto(Integer.toString(asiento));
-        }	
-        // he cambiado ponerViajero por ponerTexto porque aquí creo que indicamos los nºs de asiento solamente
-        // tendremos que hacer otro para que cuando le demos clic a uno nos muestre información del viajero sentado
-        	
-        
-        // igual no es necesario el try/catch
-        // el método estaOcupado() lo más seguro habrá que crearlo en la clase "Viajeros" que es = Recordatorios de Agenda
-        try {
-          if (viajero.estaOcupado(asiento)) { 
-            asientoVista.ponerOcupado();            
-          }
-        } catch (Exception e) {
-          if (VentaBilletes.esModoDebug()) {
-            DebugVista.devolverInstancia()
-              .mostrar(vista.ERROR_OBTENER_OCUPACION, e);
-          }            
-        }
+		for (int fila = 0; fila < vista.NUM_FILAS; fila++) {
+			for (int columna = 0; columna < vista.NUM_COLUMNAS; columna++) {
 
-        asiento++;
-        
-      }
-    }
-  }
+				AsientoVista asientoVista = asientosVista[fila][columna];
+				Asiento asientoActual = new Asiento(asiento);
+				asientoVista.ponerAsiento(asientoActual);
+				// if (1=1 /* asiento en el que se ha hecho clic */) {
+				//asientoVista.ponerTexto(Integer.toString(asiento),
+				//		AsientoVista.Formato.DESTACADO);
+				// } else {
+				asientoVista.ponerTexto(""+ asiento);
+				// }
+				// he cambiado ponerViajero por ponerTexto porque aquí creo que indicamos
+				// los nºs de asiento solamente
+				// tendremos que hacer otro para que cuando le demos clic a uno nos
+				// muestre información del viajero sentado
+
+				// igual no es necesario el try/catch
+				// el método estaOcupado() lo más seguro habrá que crearlo en la clase
+				// "Viajeros" que es = Recordatorios de Agenda
+				/*
+				 * try { if (viajero.estaOcupado(asiento)) { asientoVista.ponerOcupado();
+				 * } } catch (Exception e) { if (VentaBilletes.esModoDebug()) {
+				 * DebugVista.devolverInstancia() .mostrar(vista.ERROR_OBTENER_OCUPACION,
+				 * e); } }
+				 */
+
+				asiento++;
+
+			}
+		}
+	}
+
+	public Viaje obtenerViaje() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

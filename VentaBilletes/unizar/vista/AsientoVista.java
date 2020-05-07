@@ -76,6 +76,10 @@ public class AsientoVista extends JLabel {
 		return asiento;
 	}
 
+	public void ponerAsiento(Asiento asiento) {
+		this.asiento = asiento;
+	}
+
 	/**
 	 * Selecciona asiento
 	 */
@@ -129,8 +133,8 @@ public class AsientoVista extends JLabel {
 	/**
 	 * Pone texto con formato
 	 */
-	public void ponerTexto(Asiento asiento, Formato formato) {
-		setText(asiento.toString());
+	public void ponerTexto(String string, Formato formato) {
+		setText(string);
 
 		if (formato == Formato.DESTACADO) {
 			atributos.put(TextAttribute.SIZE, fuente.getSize() + INC_FUENTE_DIA);
@@ -143,8 +147,8 @@ public class AsientoVista extends JLabel {
 	/**
 	 * Pone texto con formato normal
 	 */
-	public void ponerTexto(Asiento asiento) {
-		ponerTexto(asiento, Formato.NORMAL);
+	public void ponerTexto(String string) {
+		ponerTexto(string, Formato.NORMAL);
 	}
 
 	@Override
