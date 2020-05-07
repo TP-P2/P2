@@ -1,12 +1,3 @@
-/**
- * AsientoVista.java
- * 
- * Cristian Bogdan Bucutea & Borja Rando Jarque
- * 
- * 04/2020
- * 
- */
-
 package vista;
 
 import java.awt.Color;
@@ -47,7 +38,6 @@ public class AsientoVista extends JLabel {
 
 	/**
 	 * Construye la vista del asiento
-	 * 
 	 */
 	AsientoVista(OficinaVista vista, boolean recibeEventosRaton) {
 		this.vista = vista;
@@ -68,7 +58,6 @@ public class AsientoVista extends JLabel {
 
 	/**
 	 * Recibe los eventos de ratón
-	 * 
 	 */
 	private void recibirEventosRaton() {
 		addMouseListener(new MouseAdapter() {
@@ -83,25 +72,16 @@ public class AsientoVista extends JLabel {
 		});
 	}
 
-	/**
-	 * Obtiene el asiento de un viajero
-	 * 
-	 */
 	public Asiento obtenerAsiento() {
 		return asiento;
 	}
 
-	/**
-	 * Pone el asiento de asiento vista
-	 * 
-	 */
 	public void ponerAsiento(Asiento asiento) {
 		this.asiento = asiento;
 	}
 
 	/**
-	 * Selecciona un asiento
-	 * 
+	 * Selecciona asiento
 	 */
 	public void seleccionar() {
 		seleccionado = true;
@@ -109,8 +89,7 @@ public class AsientoVista extends JLabel {
 	}
 
 	/**
-	 * Quita selección de un asiento
-	 * 
+	 * Quita selección asiento
 	 */
 	public void deseleccionar() {
 		seleccionado = false;
@@ -126,8 +105,7 @@ public class AsientoVista extends JLabel {
 	}
 
 	/**
-	 * Pone ocupado
-	 * 
+	 * Poner ocupado
 	 */
 	public void ponerOcupado() {
 		viajero = true;
@@ -135,8 +113,7 @@ public class AsientoVista extends JLabel {
 	}
 
 	/**
-	 * Elimina ocupado
-	 * 
+	 * Eliminar ocupado
 	 */
 	public void eliminarOcupado() {
 		viajero = false;
@@ -145,7 +122,6 @@ public class AsientoVista extends JLabel {
 
 	/**
 	 * Inicia asiento vista
-	 * 
 	 */
 	public void iniciar() {
 		// ponerViajero();
@@ -156,7 +132,6 @@ public class AsientoVista extends JLabel {
 
 	/**
 	 * Pone texto con formato
-	 * 
 	 */
 	public void ponerTexto(String string, Formato formato) {
 		setText(string);
@@ -171,16 +146,11 @@ public class AsientoVista extends JLabel {
 
 	/**
 	 * Pone texto con formato normal
-	 * 
 	 */
 	public void ponerTexto(String string) {
 		ponerTexto(string, Formato.NORMAL);
 	}
 
-	/**
-	 * Sobreescribe toString
-	 * 
-	 */
 	@Override
 	public String toString() {
 		return asiento.toString();

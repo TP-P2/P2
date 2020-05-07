@@ -1,4 +1,4 @@
-/**
+/*
  * Viaje.java
  * 
  * Cristian Bogdan Bucutea & Borja Rando Jarque
@@ -100,7 +100,7 @@ public class Viaje {
 	}
 
 	/**
-	 * Obtiene el número de asientos disponibles para el Viaje
+	 * Obtiene el el número de asientos disponibles para el Viaje
 	 * 
 	 */
 	public int obtenerAsientosDisponibles() {
@@ -109,7 +109,6 @@ public class Viaje {
 
 	/**
 	 * Devuelve la ocupación del Autobus asignado como cadena de caracteres
-	 * 
 	 */
 	public String obtenerOcupacion() {
 		return autobus.obtenerOcupacion();

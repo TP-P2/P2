@@ -1,4 +1,4 @@
-/**
+/*
  * Viajero.java
  * 
  * Cristian Bogdan Bucutea & Borja Rando Jarque

@@ -1,4 +1,4 @@
-/**
+/*
  * Asiento.java
  * 
  * Cristian Bogdan Bucutea & Borja Rando Jarque

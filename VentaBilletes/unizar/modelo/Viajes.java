@@ -1,9 +1,9 @@
-/**
+/*
  * Viajes.java
  * 
  * Cristian Bogdan Bucutea & Borja Rando Jarque
  * 
- * 05/2020
+ * 03/2020
  * 
  */
 
@@ -26,7 +26,6 @@ import vista.OficinaVista;
 
 /**
  * Viajes de la oficina
- * 
  */
 public class Viajes {
 	private List<Viaje> viajes;
@@ -37,8 +36,7 @@ public class Viajes {
 	public static String ELIMINAR_VIAJERO = "Eliminar viajero";
 
 	/**
-	 * Construye viajes
-	 * 
+	 * Construye viajes 3
 	 */
 	public Viajes() throws FileNotFoundException {
 		viajes = new ArrayList<>();
@@ -48,7 +46,6 @@ public class Viajes {
 
 	/**
 	 * Añade nuevo observador de los viajes
-	 * 
 	 */
 	public void nuevoObservador(PropertyChangeListener observador) {
 		this.observadores.addPropertyChangeListener(observador);
@@ -124,7 +121,6 @@ public class Viajes {
 	/**
 	 * Devuelve la ocupación del Autobus asignado a un Viaje como cadena de
 	 * caracteres
-	 * 
 	 */
 	public String obtenerOcupacion(String idViaje) {
 		Viaje viaje = getViajePorId(idViaje);
@@ -147,15 +143,13 @@ public class Viajes {
 
 	/**
 	 * Obtiene viajero para un asiento
-	 * 
 	 */
-	public Viajero obtenerViajero(Viaje viaje) {
-		return viaje.obtenerOcupacion();
+	public Viajero obtenerViajero(Asiento asiento) {
+		return asiento.getViajero();// MODIFICAR
 	}
 
 	/**
 	 * Indica si hay viajero para un asiento
-	 * 
 	 */
 	public boolean hayViajero(Asiento asiento) {
 		return (asiento.estaOcupado());
@@ -163,26 +157,23 @@ public class Viajes {
 
 	/**
 	 * Añade nuevo viajero
-	 * 
 	 */
 	public void nuevo(Viaje viaje, Asiento asiento, Viajero viajero) {
-		viaje.ocuparAsiento(asiento.getNumero(), viajero);
-		
+		viaje.ocuparAsiento(asiento.getNumero(), viajero); // comprobar !=null
 		this.observadores.firePropertyChange(NUEVO_VIAJERO, null, asiento);
 	}
 
 	/**
 	 * Elimina viajero para un asiento
-	 * 
 	 */
 	public void eliminar(Viaje viaje, Asiento asiento) {
-		viaje.desocuparAsiento(asiento.getNumero());
+		viaje.desocuparAsiento(asiento.getNumero()); // comprobar !=null
 
 		this.observadores.firePropertyChange(ELIMINAR_VIAJERO, null, asiento);
 	}
 	
 	/**
-	 * Escribe mensaje de error
+	 * Escribe mensaje error
 	 * 
 	 */
 	private void mensajeError(String mensaje, Exception e) {
