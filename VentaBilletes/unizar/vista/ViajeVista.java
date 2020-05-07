@@ -1,3 +1,12 @@
+/**
+ * ViajeVista.java
+ * 
+ * Cristian Bogdan Bucutea & Borja Rando Jarque
+ * 
+ * 04/2020
+ * 
+ */
+
 package vista;
 
 import control.Oficina;
@@ -62,15 +71,13 @@ class ViajeVista extends JPanel {
 	}
 
 	/**
-	 * Busca un AsientoVista
+	 * Busca un AsientoVista de un viaje
 	 * 
 	 */
 	private AsientoVista buscarAsientoVista(Asiento asiento) {
 		for (int fila = 0; fila < vista.NUM_FILAS; fila++) {
 			for (int columna = 0; columna < vista.NUM_COLUMNAS; columna++) {
 				Asiento asientoConcreto = asientosVista[fila][columna].obtenerAsiento();
-				// ¿¿ AÑADIR en AsientoVista un método que haga return de un asiento ??
-				// obtenerAsiento()
 				if ((asientoConcreto != null) && asientoConcreto.equals(asiento)) {
 					return asientosVista[fila][columna];
 				}
@@ -114,7 +121,7 @@ class ViajeVista extends JPanel {
 	}
 
 	/**
-	 * Pone días de mes vista
+	 * Pone asientos de un viaje vista
 	 * 
 	 */
 	void ponerAsientos(Viaje viaje) {
@@ -134,14 +141,10 @@ class ViajeVista extends JPanel {
 				// } else {
 				asientoVista.ponerTexto(""+ asiento);
 				// }
-				// he cambiado ponerViajero por ponerTexto porque aquí creo que indicamos
-				// los nºs de asiento solamente
+				// he cambiado ponerViajero por ponerTexto
 				// tendremos que hacer otro para que cuando le demos clic a uno nos
 				// muestre información del viajero sentado
 
-				// igual no es necesario el try/catch
-				// el método estaOcupado() lo más seguro habrá que crearlo en la clase
-				// "Viajeros" que es = Recordatorios de Agenda
 				/*
 				 * try { if (viajero.estaOcupado(asiento)) { asientoVista.ponerOcupado();
 				 * } } catch (Exception e) { if (VentaBilletes.esModoDebug()) {

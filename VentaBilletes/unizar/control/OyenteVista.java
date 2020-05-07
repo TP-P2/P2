@@ -1,11 +1,12 @@
-/*
- * Oficina.java
+/**
+ * OyenteVista.java
  * 
  * Cristian Bogdan Bucutea & Borja Rando Jarque
  * 
- * 03/2020
+ * 04/2020
  * 
  */
+
 package control;
 
 /**

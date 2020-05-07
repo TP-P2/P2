@@ -1,3 +1,12 @@
+/**
+ * OficinaVista.java
+ * 
+ * Cristian Bogdan Bucutea & Borja Rando Jarque
+ * 
+ * 04/2020
+ * 
+ */
+
 package vista;
 
 import control.Oficina;
@@ -22,6 +31,7 @@ import modelo.Tupla;
 
 /**
  * Vista Swing de la oficina
+ * 
  */
 public class OficinaVista implements ActionListener, PropertyChangeListener { 
   private OyenteVista oyenteVista;
@@ -58,7 +68,6 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
   private static final String ACERCA_DE = "Acerca de...";
   public static final String ETIQUETA_INTRODUCE_TEXTO = "Introduce texto";
   
-  // viajes ya existe por eso le he puesto los_viajes
   private static final String[] los_viajes = {"VT001", "TV001"};
   
   /** Constantes para redimensionamiento */
@@ -69,6 +78,7 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
   
   /**
    * Construye la vista de la oficina 
+   * 
    */
   private OficinaVista(OyenteVista oyenteVista, Viajes viajes) {
     this.oyenteVista = oyenteVista;
@@ -76,13 +86,13 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
     crearVentana();
     
     // inicia vista al viaje actual
-    // ------o igual con viajeVista------
     viajeVista = viajes.getViajePorId(los_viajes[0]);
     ponerViajeVista(viajeVista); 
   }  
   
   /**
    * Crea la ventana de la vista
+   * 
    */  
   private void crearVentana() { 
     ventana = new JFrame(Oficina.VERSION);
@@ -123,6 +133,7 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
     
   /**
    * Devuelve la instancia de la vista de la oficina
+   * 
    */        
   public static synchronized OficinaVista 
        instancia(OyenteVista oyenteIU, Viajes viajes) {
@@ -134,6 +145,7 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
   
   /**
    * Crea botón barra de herramientas
+   * 
    */ 
   private JButton crearBotonBarraHerramientas(String etiqueta) {
     JButton boton = new JButton(etiqueta);
@@ -145,6 +157,7 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
 
   /**
    * Crea barra de herramientas
+   * 
    */   
   private void crearBarraHerramientas(JPanel panelNorte) {
     JToolBar barra = new JToolBar();
@@ -183,7 +196,8 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
   }  
            
   /**
-   * Crea vista del texto del viajero 
+   * Crea vista del texto del viajero
+   *  
    */   
   private void crearViajeroVista(JPanel panel) {
     viajesVista = new JTextArea(FILAS_VIAJES_VISTA, 
@@ -216,6 +230,7 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
   
   /**
    * Sobreescribe actionPerformed de ActionListener
+   * 
    */
   @Override
   public void actionPerformed(ActionEvent e)  {
@@ -230,13 +245,11 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
         break;
 
       case VIAJE_ANTERIOR:
-    	  //-----cambiar asientoVista por viajeVista??----
        // asientoVista.add(los_viajes, -1);
         ponerViajeVista(viajeVista);                          
         break;           
 
       case VIAJE_SIGUIENTE:
-    	  //-----cambiar asientoVista por viajeVista??---- maybe
         //asientoVista.add(los_viajes, 1);
         ponerViajeVista(viajeVista);
         break;           
@@ -251,6 +264,7 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
   
   /**
    * Pone texto de un viajero
+   * 
    */
   public void ponerTextoViajero(String texto) {
     viajesVista.setText(texto);      
@@ -258,6 +272,7 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
      
   /**
    * Inicia viaje vista para un asiento 
+   * 
    */  
   public void ponerViajeVista(Viaje esteViaje) {
     ponerTextoViajero("");      
@@ -270,6 +285,7 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
     
   /**
    * Selecciona asiento vista
+   * 
    */    
   public void seleccionarAsientoVista(AsientoVista asientoVista) {
     // Quita selección anterior  
@@ -295,6 +311,7 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
   
   /**
    * Activa botón nuevo viajero
+   * 
    */   
   public void activarBotonNuevoViajero(boolean activar) {
     botonNuevo.setEnabled(activar);
@@ -302,6 +319,7 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
 
   /**
    * Activa botón eliminar viajero
+   * 
    */     
   public void activarBotonEliminarViajero(boolean activar) {
     botonEliminar.setEnabled(activar);
@@ -309,6 +327,7 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
       
   /**
    * Sobreescribe propertyChange para recibir cambios en modelo
+   * 
    */  
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
