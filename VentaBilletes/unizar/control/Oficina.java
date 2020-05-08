@@ -63,12 +63,16 @@ public class Oficina implements OyenteVista {
 			Tupla<Viaje, Asiento, String, String> tuplaso = (Tupla<Viaje, Asiento, String, String>) obj;
 			viajes.eliminar(tuplaso.a, tuplaso.b);
 			break;
-
+			
+		case CREAR_HOJA_VIAJE:
+		break;
+		
 		case SALIR:
 			System.exit(0);
 			break;
 		}
 	}
+	
 
 	public static boolean esModoDebug() {
 		return modoDebug;

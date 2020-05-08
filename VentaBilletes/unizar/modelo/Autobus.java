@@ -21,7 +21,6 @@ import java.io.FileNotFoundException;
  */
 public class Autobus {
 	private final static String DISPOSICION_AUTOBUSES = "DisposicionAutobuses.txt";
-	public final static int COD_PASILLO = -1;
 	private String matricula;
 	private int totalAsientos;
 	private int numFilas;
@@ -54,11 +53,12 @@ public class Autobus {
 
 			for (int i = 0; i < totalPosiciones; i++) {
 				numAsiento = sc.nextInt();
-				Asiento asiento = new Asiento(numAsiento);
+				Asiento asiento = new Asiento(numAsiento, i);
 				asientos.add(asiento);
 				if (!esPasillo(numAsiento))
 					totalAsientos++;
 			}
+
 		}
 		sc.close();
 	}
@@ -95,9 +95,17 @@ public class Autobus {
 	 * Obtiene el asiento con el número buscado
 	 * 
 	 */
-	private Asiento getAsientoPorNumero(int numAsiento) {
+	public Asiento getAsientoPorNumero(int numAsiento) {
 		for (Asiento asiento : asientos) {
 			if (esAsiento(numAsiento) && asiento.getNumero() == numAsiento)
+				return asiento;
+		}
+		return null;
+	}
+	
+	public Asiento getAsientoPorPosicion(int posicion) {
+		for (Asiento asiento : asientos) {
+			if(asiento.getPosicion() == posicion)
 				return asiento;
 		}
 		return null;
@@ -121,7 +129,7 @@ public class Autobus {
 	 * 
 	 */
 	public boolean esPasillo(int numAsiento) {
-		return numAsiento == COD_PASILLO;
+		return numAsiento == Asiento.COD_PASILLO;
 	}
 
 	/**

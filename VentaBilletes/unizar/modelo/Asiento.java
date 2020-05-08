@@ -14,7 +14,9 @@ package modelo;
  *
  */
 public class Asiento {
+	public final static int COD_PASILLO = -1;
 	private int numero;
+	private int posicion;
 	private boolean ocupado;
 	private Viajero viajero;
 
@@ -22,8 +24,9 @@ public class Asiento {
 	 * Construye un Asiento
 	 * 
 	 */
-	public Asiento(int numero) {
+	public Asiento(int numero, int posicion) {
 		this.numero = numero;
+		this.posicion = posicion;
 		ocupado = false;
 	}
 
@@ -70,11 +73,27 @@ public class Asiento {
 	}
 
 	/**
+	 * Determina si un asiento es pasillo
+	 * 
+	 */
+	public boolean esPasillo() {
+		return numero == Asiento.COD_PASILLO;
+	}
+	
+	/**
+	 * Devuelve la posición del asiento
+	 * 
+	 */
+	public int getPosicion() {
+		return posicion;
+	}
+	
+	/**
 	 * Devuelve símbolo que representa la ocupación del Asiento
 	 * 
 	 */
 	public String devuelveSimbolo() {
-		if (numero == Autobus.COD_PASILLO)
+		if (numero == COD_PASILLO)
 			return "[P]";
 		if (ocupado)
 			return "[X]";

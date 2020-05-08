@@ -13,7 +13,7 @@ package control;
  */
 public interface OyenteVista {
 	public enum Evento {
-		NUEVO_VIAJERO, ELIMINAR_VIAJERO, SALIR
+		NUEVO_VIAJERO, ELIMINAR_VIAJERO, SALIR, CREAR_HOJA_VIAJE
 	}
 
 	/**

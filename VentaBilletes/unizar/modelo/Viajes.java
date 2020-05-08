@@ -82,6 +82,14 @@ public class Viajes {
 
 	}
 
+	public Asiento buscarAsiento(String idViaje, int numAsiento) {
+		return getViajePorId(idViaje).buscarAsiento(numAsiento); 
+	}
+	
+	public Asiento buscarAsientoPorPosicion(String idViaje, int posicion) {
+		return getViajePorId(idViaje).buscarAsientoPorPosicion(posicion); 
+	}
+	
 	/**
 	 * Ocupa un Asiento de un Autobus
 	 * 

@@ -20,21 +20,27 @@ import modelo.Viajero;
  * 
  */
 public class AsientoVista extends JLabel {
+	
 	private OficinaVista vista;
-	private static final int INC_FUENTE_DIA = 8;
+	
+	private static final int INC_FUENTE = 8;
+	
 	private static final Color COLOR_SELECCIONADO = Color.ORANGE;
-	private Color colorNoSeleccionado;
-	private boolean seleccionado = false;
 	private static final Color COLOR_OCUPADO = Color.GREEN;
-	private boolean viajero = false;
+	private static final Color COLOR_PASILLO = new Color(190,190,190);
+	private static Color COLOR_DESOCUPADO;
+	
+	private Color colorNoSeleccionado;
+	
+	private boolean seleccionado = false;
+	private boolean ocupado = false;
+	
 	private Asiento asiento;
 	private Font fuente;
 	private Map atributos;
 	private int tamañoNormal;
 
-	public enum Formato {
-		DESTACADO, NORMAL
-	};
+	public enum Formato {DESTACADO, NORMAL};
 
 	/**
 	 * Construye la vista del asiento
@@ -45,7 +51,7 @@ public class AsientoVista extends JLabel {
 		fuente = getFont();
 		atributos = fuente.getAttributes();
 		tamañoNormal = fuente.getSize();
-		colorNoSeleccionado = this.getBackground();
+		COLOR_DESOCUPADO = this.getBackground();
 
 		setHorizontalAlignment(SwingConstants.CENTER);
 		setOpaque(true);
@@ -93,8 +99,8 @@ public class AsientoVista extends JLabel {
 	 */
 	public void deseleccionar() {
 		seleccionado = false;
-		if (!viajero) {
-			setBackground(colorNoSeleccionado);
+		if (!ocupado) {
+			setBackground(COLOR_DESOCUPADO);
 		} else {
 			setBackground(COLOR_OCUPADO);
 		}
@@ -108,16 +114,20 @@ public class AsientoVista extends JLabel {
 	 * Poner ocupado
 	 */
 	public void ponerOcupado() {
-		viajero = true;
+		ocupado = true;
 		setBackground(COLOR_OCUPADO);
 	}
 
 	/**
 	 * Eliminar ocupado
 	 */
-	public void eliminarOcupado() {
-		viajero = false;
-		setBackground(colorNoSeleccionado);
+	public void ponerDesocupado() {
+		ocupado = false;
+		
+	}
+	
+	public void ponerPasillo() {
+		setBackground(COLOR_PASILLO);
 	}
 
 	/**
@@ -125,7 +135,7 @@ public class AsientoVista extends JLabel {
 	 */
 	public void iniciar() {
 		// ponerViajero();
-		eliminarOcupado();
+		ponerDesocupado();
 		deseleccionar();
 		asiento = null;
 	}
@@ -137,7 +147,7 @@ public class AsientoVista extends JLabel {
 		setText(string);
 
 		if (formato == Formato.DESTACADO) {
-			atributos.put(TextAttribute.SIZE, fuente.getSize() + INC_FUENTE_DIA);
+			atributos.put(TextAttribute.SIZE, fuente.getSize() + INC_FUENTE);
 		} else {
 			atributos.put(TextAttribute.SIZE, tamañoNormal);
 		}
@@ -155,5 +165,7 @@ public class AsientoVista extends JLabel {
 	public String toString() {
 		return asiento.toString();
 	}
+
+
 
 }

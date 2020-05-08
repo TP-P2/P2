@@ -17,8 +17,8 @@ import modelo.Viajes;
  * 
  */
 class ViajeVista extends JPanel {
-	private static final int ALTURA_FILA = 200;
-	private static final int ANCHURA_COLUMNA = 25;
+	private static final int ALTURA_FILA = 25;
+	private static final int ANCHURA_COLUMNA = 200;
 	private AsientoVista[][] asientosVista;
 	private OficinaVista vista;
 	private Viajes viajes;
@@ -54,6 +54,7 @@ class ViajeVista extends JPanel {
 
 		for (int asiento = 0; asiento < filas; asiento++) {
 			for (int fila = 0; fila < asientos; fila++) {
+
 				asientosVista[asiento][fila] = new AsientoVista(vista,
 						recibeEventosRaton);
 				add(asientosVista[asiento][fila]);
@@ -83,7 +84,7 @@ class ViajeVista extends JPanel {
 	 * Pone ocupado un asiento
 	 * 
 	 */
-	void ponerOcupado(Asiento asiento) {
+	void ponerOcupado(Asiento asiento) { //Habrá que pasar tupla con viaje, asiento, dni y nombre pasajero
 		AsientoVista asientoVista = buscarAsientoVista(asiento);
 		if (asientoVista != null) {
 			asientoVista.ponerOcupado();
@@ -94,10 +95,10 @@ class ViajeVista extends JPanel {
 	 * Elimina ocupado de un asiento
 	 * 
 	 */
-	void eliminarOcupado(Asiento asiento) {
+	void eliminarOcupado(Asiento asiento) { //Tupla con viaje y asiento
 		AsientoVista asientoVista = buscarAsientoVista(asiento);
 		if (asientoVista != null) {
-			asientoVista.eliminarOcupado();
+			asientoVista.ponerDesocupado();
 		}
 	}
 
@@ -114,43 +115,29 @@ class ViajeVista extends JPanel {
 	}
 
 	/**
-	 * Pone días de mes vista
+	 * Pone asientos de viaje vista
 	 * 
 	 */
 	void ponerAsientos(Viaje viaje) {
-		int asiento = 1;
+		int asiento = 0;
 
 		iniciarViajeVista();
 
 		for (int fila = 0; fila < vista.NUM_FILAS; fila++) {
 			for (int columna = 0; columna < vista.NUM_COLUMNAS; columna++) {
-
+				Asiento asientoActual = viajes.buscarAsientoPorPosicion("TV001", asiento);
 				AsientoVista asientoVista = asientosVista[fila][columna];
-				Asiento asientoActual = new Asiento(asiento);
-				asientoVista.ponerAsiento(asientoActual);
-				// if (1=1 /* asiento en el que se ha hecho clic */) {
-				//asientoVista.ponerTexto(Integer.toString(asiento),
-				//		AsientoVista.Formato.DESTACADO);
-				// } else {
-				asientoVista.ponerTexto(""+ asiento);
-				// }
-				// he cambiado ponerViajero por ponerTexto porque aquí creo que indicamos
-				// los nºs de asiento solamente
-				// tendremos que hacer otro para que cuando le demos clic a uno nos
-				// muestre información del viajero sentado
-
-				// igual no es necesario el try/catch
-				// el método estaOcupado() lo más seguro habrá que crearlo en la clase
-				// "Viajeros" que es = Recordatorios de Agenda
-				/*
-				 * try { if (viajero.estaOcupado(asiento)) { asientoVista.ponerOcupado();
-				 * } } catch (Exception e) { if (VentaBilletes.esModoDebug()) {
-				 * DebugVista.devolverInstancia() .mostrar(vista.ERROR_OBTENER_OCUPACION,
-				 * e); } }
-				 */
+				if (!asientoActual.esPasillo()) {
+					asientoVista.ponerAsiento(asientoActual);
+					asientoVista.ponerTexto("" + asientoActual);
+					if (asientoActual.estaOcupado())
+						asientoVista.ponerOcupado();
+					else
+						asientoVista.ponerDesocupado();
+				} else
+					asientoVista.ponerPasillo();
 
 				asiento++;
-
 			}
 		}
 	}

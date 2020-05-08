@@ -40,8 +40,8 @@ public class OficinaVista implements ActionListener, PropertyChangeListener {
   private AsientoVista asientoVistaSeleccionado;
   private Asiento asientoVista;
   
-  public static final int NUM_FILAS = 5;
-  public static final int NUM_COLUMNAS = 14; 
+  public static final int NUM_FILAS = 14;
+  public static final int NUM_COLUMNAS = 5; 
   
   private static final int FILAS_VIAJES_VISTA = 5;
   private static final int COLUMNAS_VIAJES_VISTA = 20;

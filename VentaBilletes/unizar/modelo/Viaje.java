@@ -91,6 +91,14 @@ public class Viaje {
 		ficheroDestino.close();
 	}
 
+	public Asiento buscarAsiento(int numAsiento) {
+		return autobus.getAsientoPorNumero(numAsiento);
+	}
+	
+	public Asiento buscarAsientoPorPosicion(int posicion) {
+		return autobus.getAsientoPorPosicion(posicion);
+	}
+	
 	/**
 	 * Determina si existe el asiento para el Viaje
 	 * 
