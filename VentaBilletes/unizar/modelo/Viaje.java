@@ -1,4 +1,4 @@
-/*
+/**
  * Viaje.java
  * 
  * Cristian Bogdan Bucutea & Borja Rando Jarque
@@ -129,7 +129,15 @@ public class Viaje {
 	public String getId() {
 		return idViaje;
 	}
-
+	
+	/**
+	 * Devuelve la fecha del Viaje
+	 * 
+	 */
+	public LocalDate getFecha() {
+		return fecha;
+	}
+	
 	/**
 	 * Sobreescribe toString
 	 *

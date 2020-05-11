@@ -1,3 +1,12 @@
+/**
+ * AsientoVista.java
+ * 
+ * Cristian Bogdan Bucutea & Borja Rando Jarque
+ * 
+ * 05/2020
+ * 
+ */
+
 package vista;
 
 import java.awt.Color;
@@ -5,15 +14,12 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.font.TextAttribute;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import modelo.Asiento;
-import modelo.Viajero;
 
 /**
  * Vista de un asiento a partir de un JLabel
@@ -25,12 +31,11 @@ public class AsientoVista extends JLabel {
 	
 	private static final int INC_FUENTE = 8;
 	
-	private static final Color COLOR_SELECCIONADO = Color.ORANGE;
-	private static final Color COLOR_OCUPADO = Color.GREEN;
+	private static final Color COLOR_SELECCIONADO = Color.GREEN;
+	private static final Color COLOR_OCUPADO = Color.ORANGE;
 	private static final Color COLOR_PASILLO = new Color(190,190,190);
 	private static Color COLOR_DESOCUPADO;
 	
-	private Color colorNoSeleccionado;
 	
 	private boolean seleccionado = false;
 	private boolean ocupado = false;
@@ -44,6 +49,7 @@ public class AsientoVista extends JLabel {
 
 	/**
 	 * Construye la vista del asiento
+	 * 
 	 */
 	AsientoVista(OficinaVista vista, boolean recibeEventosRaton) {
 		this.vista = vista;
@@ -64,6 +70,7 @@ public class AsientoVista extends JLabel {
 
 	/**
 	 * Recibe los eventos de ratón
+	 * 
 	 */
 	private void recibirEventosRaton() {
 		addMouseListener(new MouseAdapter() {
@@ -78,16 +85,25 @@ public class AsientoVista extends JLabel {
 		});
 	}
 
+	/**
+	 * Obtiene el asiento 
+	 * 
+	 */
 	public Asiento obtenerAsiento() {
 		return asiento;
 	}
 
+	/**
+	 * Pone el asiento
+	 * 
+	 */
 	public void ponerAsiento(Asiento asiento) {
 		this.asiento = asiento;
 	}
 
 	/**
 	 * Selecciona asiento
+	 * 
 	 */
 	public void seleccionar() {
 		seleccionado = true;
@@ -95,7 +111,8 @@ public class AsientoVista extends JLabel {
 	}
 
 	/**
-	 * Quita selección asiento
+	 * Deselecciona asiento
+	 * 
 	 */
 	public void deseleccionar() {
 		seleccionado = false;
@@ -106,12 +123,17 @@ public class AsientoVista extends JLabel {
 		}
 	}
 
+	/**
+	 * Indica si un asiento está seleccionado
+	 * 
+	 */
 	public boolean estaSeleccionado() {
 		return seleccionado;
 	}
 
 	/**
-	 * Poner ocupado
+	 * Pone ocupado
+	 * 
 	 */
 	public void ponerOcupado() {
 		ocupado = true;
@@ -119,22 +141,27 @@ public class AsientoVista extends JLabel {
 	}
 
 	/**
-	 * Eliminar ocupado
+	 * Pone desocupado
+	 * 
 	 */
 	public void ponerDesocupado() {
 		ocupado = false;
 		
 	}
 	
+	/**
+	 * Pone pasillo
+	 * 
+	 */
 	public void ponerPasillo() {
 		setBackground(COLOR_PASILLO);
 	}
 
 	/**
 	 * Inicia asiento vista
+	 * 
 	 */
 	public void iniciar() {
-		// ponerViajero();
 		ponerDesocupado();
 		deseleccionar();
 		asiento = null;
@@ -142,6 +169,7 @@ public class AsientoVista extends JLabel {
 
 	/**
 	 * Pone texto con formato
+	 * 
 	 */
 	public void ponerTexto(String string, Formato formato) {
 		setText(string);
@@ -156,11 +184,16 @@ public class AsientoVista extends JLabel {
 
 	/**
 	 * Pone texto con formato normal
+	 * 
 	 */
 	public void ponerTexto(String string) {
 		ponerTexto(string, Formato.NORMAL);
 	}
 
+	/**
+	 * Sobreescribe toString
+	 * 
+	 */
 	@Override
 	public String toString() {
 		return asiento.toString();

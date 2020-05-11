@@ -1,4 +1,4 @@
-/*
+/**
  * Viajes.java
  * 
  * Cristian Bogdan Bucutea & Borja Rando Jarque
@@ -14,10 +14,8 @@ import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -26,9 +24,10 @@ import vista.OficinaVista;
 
 /**
  * Viajes de la oficina
+ * 
  */
 public class Viajes {
-	private List<Viaje> viajes;
+	private Map<String, Viaje> viajes;
 	private int totalViajes;
 	private PropertyChangeSupport observadores;
 	private final static String INFO_VIAJES = "InformacionViajes.txt";
@@ -36,16 +35,18 @@ public class Viajes {
 	public static String ELIMINAR_VIAJERO = "Eliminar viajero";
 
 	/**
-	 * Construye viajes 3
+	 * Construye viajes
+	 * 
 	 */
 	public Viajes() throws FileNotFoundException {
-		viajes = new ArrayList<>();
+		viajes = new HashMap<>();
 		cargarViajes(INFO_VIAJES);
 		observadores = new PropertyChangeSupport(this);
 	}
 
 	/**
 	 * Añade nuevo observador de los viajes
+	 * 
 	 */
 	public void nuevoObservador(PropertyChangeListener observador) {
 		this.observadores.addPropertyChangeListener(observador);
@@ -69,7 +70,8 @@ public class Viajes {
 						sc.nextLine(); // Línea en blanco como separador de viajes
 						Viaje viaje = new Viaje();
 						viaje.cargarViaje(sc);
-						viajes.add(viaje);
+						viajes.put(viaje.getId(), viaje);
+						
 					}
 				}
 				sc.close();
@@ -82,6 +84,19 @@ public class Viajes {
 
 	}
 
+	public Map<String, Viaje> getViajes(){
+		return viajes;
+	}
+	
+	public Map<String, Viaje> buscarViajesPorFecha(LocalDate fecha){
+		Map<String, Viaje> viajesFecha = new HashMap<>();
+		for(Map.Entry<String, Viaje> viaje : viajes.entrySet()) {
+			if(viaje.getValue().getFecha().equals(fecha))
+				viajesFecha.put(viaje.getKey(), viaje.getValue());
+		}
+		return viajesFecha;
+	}
+	
 	public Asiento buscarAsiento(String idViaje, int numAsiento) {
 		return getViajePorId(idViaje).buscarAsiento(numAsiento); 
 	}
@@ -129,6 +144,7 @@ public class Viajes {
 	/**
 	 * Devuelve la ocupación del Autobus asignado a un Viaje como cadena de
 	 * caracteres
+	 * 
 	 */
 	public String obtenerOcupacion(String idViaje) {
 		Viaje viaje = getViajePorId(idViaje);
@@ -142,9 +158,9 @@ public class Viajes {
 	 * 
 	 */
 	public Viaje getViajePorId(String idViaje) {
-		for (Viaje viaje : viajes) {
-			if (viaje != null && viaje.getId().equals(idViaje))
-				return viaje;
+		for (Map.Entry<String, Viaje> viaje : viajes.entrySet()) {
+			if (viaje != null && viaje.getKey().equals(idViaje))
+				return viaje.getValue();
 		}
 		return null;
 	}
@@ -158,6 +174,7 @@ public class Viajes {
 
 	/**
 	 * Indica si hay viajero para un asiento
+	 * 
 	 */
 	public boolean hayViajero(Asiento asiento) {
 		return (asiento.estaOcupado());
@@ -165,6 +182,7 @@ public class Viajes {
 
 	/**
 	 * Añade nuevo viajero
+	 * 
 	 */
 	public void nuevo(Viaje viaje, Asiento asiento, Viajero viajero) {
 		viaje.ocuparAsiento(asiento.getNumero(), viajero); // comprobar !=null
@@ -173,10 +191,10 @@ public class Viajes {
 
 	/**
 	 * Elimina viajero para un asiento
+	 * 
 	 */
 	public void eliminar(Viaje viaje, Asiento asiento) {
 		viaje.desocuparAsiento(asiento.getNumero()); // comprobar !=null
-
 		this.observadores.firePropertyChange(ELIMINAR_VIAJERO, null, asiento);
 	}
 	
@@ -198,9 +216,18 @@ public class Viajes {
 	@Override
 	public String toString() {
 		String s = "";
-		for (Viaje viaje : viajes) {
+		for (Map.Entry<String, Viaje> viaje : viajes.entrySet()) {
 			s += viaje;
 		}
 		return s;
 	}
+
+	/**
+	 * Devuelve el viaje con el idViaje
+	 * 
+	 */
+	public Map<String, Viaje> devolverViajes() {
+		return viajes;
+	}
+	
 }

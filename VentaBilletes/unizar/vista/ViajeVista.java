@@ -1,3 +1,12 @@
+/**
+ * ViajeVista.java
+ * 
+ * Cristian Bogdan Bucutea & Borja Rando Jarque
+ * 
+ * 05/2020
+ * 
+ */
+
 package vista;
 
 import control.Oficina;
@@ -17,12 +26,11 @@ import modelo.Viajes;
  * 
  */
 class ViajeVista extends JPanel {
-	private static final int ALTURA_FILA = 25;
-	private static final int ANCHURA_COLUMNA = 200;
+	private static final int ALTURA_FILA = 15;
+	private static final int ANCHURA_COLUMNA = 100;
 	private AsientoVista[][] asientosVista;
 	private OficinaVista vista;
 	private Viajes viajes;
-	private ViajeVista viajeVistaSeleccionado;
 	private Viaje viajeVista;
 	public static final boolean RECIBE_EVENTOS_RATON = true;
 	public static final boolean NO_RECIBE_EVENTOS_RATON = false;
@@ -63,15 +71,13 @@ class ViajeVista extends JPanel {
 	}
 
 	/**
-	 * Busca un AsientoVista
+	 * Busca un AsientoVista para un viaje
 	 * 
 	 */
 	private AsientoVista buscarAsientoVista(Asiento asiento) {
 		for (int fila = 0; fila < vista.NUM_FILAS; fila++) {
 			for (int columna = 0; columna < vista.NUM_COLUMNAS; columna++) {
 				Asiento asientoConcreto = asientosVista[fila][columna].obtenerAsiento();
-				// ¿¿ AÑADIR en AsientoVista un método que haga return de un asiento ??
-				// obtenerAsiento()
 				if ((asientoConcreto != null) && asientoConcreto.equals(asiento)) {
 					return asientosVista[fila][columna];
 				}
@@ -84,7 +90,7 @@ class ViajeVista extends JPanel {
 	 * Pone ocupado un asiento
 	 * 
 	 */
-	void ponerOcupado(Asiento asiento) { //Habrá que pasar tupla con viaje, asiento, dni y nombre pasajero
+	void ponerOcupado(Asiento asiento) {
 		AsientoVista asientoVista = buscarAsientoVista(asiento);
 		if (asientoVista != null) {
 			asientoVista.ponerOcupado();
@@ -95,7 +101,7 @@ class ViajeVista extends JPanel {
 	 * Elimina ocupado de un asiento
 	 * 
 	 */
-	void eliminarOcupado(Asiento asiento) { //Tupla con viaje y asiento
+	void eliminarOcupado(Asiento asiento) {
 		AsientoVista asientoVista = buscarAsientoVista(asiento);
 		if (asientoVista != null) {
 			asientoVista.ponerDesocupado();
@@ -106,7 +112,8 @@ class ViajeVista extends JPanel {
 	 * Inicia vista del viaje
 	 * 
 	 */
-	private void iniciarViajeVista() {
+	private void iniciarViajeVista(Viaje viaje) {
+		viajeVista = viaje;
 		for (int fila = 0; fila < vista.NUM_FILAS; fila++) {
 			for (int asientoFila = 0; asientoFila < vista.NUM_COLUMNAS; asientoFila++) {
 				asientosVista[fila][asientoFila].iniciar();
@@ -115,36 +122,56 @@ class ViajeVista extends JPanel {
 	}
 
 	/**
-	 * Pone asientos de viaje vista
+	 * Pone los asientos de viaje vista
 	 * 
 	 */
 	void ponerAsientos(Viaje viaje) {
 		int asiento = 0;
 
-		iniciarViajeVista();
+		iniciarViajeVista(viaje);
 
 		for (int fila = 0; fila < vista.NUM_FILAS; fila++) {
 			for (int columna = 0; columna < vista.NUM_COLUMNAS; columna++) {
-				Asiento asientoActual = viajes.buscarAsientoPorPosicion("TV001", asiento);
+				Asiento asientoActual = viajes.buscarAsientoPorPosicion(viaje.getId(), asiento);
 				AsientoVista asientoVista = asientosVista[fila][columna];
 				if (!asientoActual.esPasillo()) {
 					asientoVista.ponerAsiento(asientoActual);
-					asientoVista.ponerTexto("" + asientoActual);
-					if (asientoActual.estaOcupado())
+					asientoVista.ponerTexto("" + asientoActual.getNumero());
+					if (asientoActual.estaOcupado()) {
 						asientoVista.ponerOcupado();
-					else
+						asientoVista.setToolTipText(asientoActual.getViajero().toString());
+					
+					} else {
 						asientoVista.ponerDesocupado();
-				} else
+					}
+				} else {
 					asientoVista.ponerPasillo();
-
+				}
 				asiento++;
 			}
 		}
 	}
 
-	public Viaje obtenerViaje() {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * Quita los asientos de viaje vista
+	 * 
+	 */
+	public void quitarAsientos() {
+		for (int fila = 0; fila < vista.NUM_FILAS; fila++) {
+			for (int columna = 0; columna < vista.NUM_COLUMNAS; columna++) {
+				asientosVista[fila][columna].setText("");
+			}
+		}
+		
+		this.removeAll(); //REVISAR
+		this.updateUI();
+		
+		revalidate();
+		repaint();
 	}
-
+	
+	public Viaje obtenerViaje() {
+		return viajeVista;
+	}
+	
 }

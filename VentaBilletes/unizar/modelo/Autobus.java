@@ -1,4 +1,4 @@
-/*
+/**
  * Autobus.java
  * 
  * Cristian Bogdan Bucutea & Borja Rando Jarque
@@ -142,6 +142,7 @@ public class Autobus {
 
 	/**
 	 * Devuelve la ocupación de un Autobus como cadena de caracteres
+	 * 
 	 */
 	public String obtenerOcupacion() {
 		String s = "";

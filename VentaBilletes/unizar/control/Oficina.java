@@ -1,4 +1,4 @@
-/*
+/**
  * Oficina.java
  * 
  * Cristian Bogdan Bucutea & Borja Rando Jarque
@@ -12,11 +12,8 @@ package control;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.Map;
 
 import modelo.*;
 import vista.OficinaVista;
@@ -26,7 +23,7 @@ import vista.OficinaVista;
  * 
  */
 public class Oficina implements OyenteVista {
-	public static String VERSION = "Venta de billetes 1.3";
+	public static String VERSION = "Venta de billetes 2.0";
 	private Viajes viajes;
 	private OficinaVista vista;
 
@@ -60,26 +57,82 @@ public class Oficina implements OyenteVista {
 			break;
 
 		case ELIMINAR_VIAJERO:
-			Tupla<Viaje, Asiento, String, String> tuplaso = (Tupla<Viaje, Asiento, String, String>) obj;
-			viajes.eliminar(tuplaso.a, tuplaso.b);
+			Tupla2<Viaje, Asiento> tupla2 = (Tupla2<Viaje, Asiento>) obj;
+			viajes.eliminar(tupla2.a, tupla2.b);
 			break;
-			
+
 		case CREAR_HOJA_VIAJE:
-		break;
-		
+			/*
+			 * try {
+			 * 
+			 * // 1-Usar tupla.a pero cambiar parámetro de generarHojaViaje Tupla<Viaje,
+			 * Asiento, String, String> tupla = (Tupla<Viaje, Asiento, String, String>)
+			 * obj; viajes.generarHojaViaje(tuplason.a); //¿¿CAMBIAR método
+			 * generarHojaViaje(String id) -> generarHojaViaje(Viaje viaje) ??
+			 * 
+			 * // 2-Usar id de los viajes pero tener que crear objeto "viaje" String id =
+			 * viaje.getId(); viajes.generarHojaViaje(id);
+			 * 
+			 * 
+			 * } catch (FileNotFoundException err1) { throw new FileNotFoundException
+			 * ("Error fichero no encontrado."); } catch (IOException err2) { throw new
+			 * IOException ("Error escritura."); }
+			 */
+			break;
+
 		case SALIR:
 			System.exit(0);
 			break;
 		}
 	}
-	
 
+	/**
+	 * Comprueba si está en modo depuración
+	 * 
+	 */
 	public static boolean esModoDebug() {
 		return modoDebug;
 	}
 
+	/**
+	 * Comprueba la validez de un viaje
+	 * 
+	 */
+	private boolean comprobarViaje(Viaje viaje, String id, LocalDate fecha) {
+		return viaje.getId().equals(id) && viaje.getFecha().equals(fecha);
+	}
+
+	/**
+	 * Obtiene los viajes existentes
+	 * 
+	 */
+	public Map<String, Viaje> getViajes() {
+		return viajes.getViajes();
+	}
+
+	/**
+	 * Método main
+	 * 
+	 */
 	public static void main(String[] args) {
 		new Oficina();
+	}
+
+	/**
+	 * Sobreescribe toString
+	 * 
+	 */
+	@Override
+	public String toString() {
+		String s = "";
+		Map<String, Viaje> listaViajes = viajes.devolverViajes();
+		for (Map.Entry<String, Viaje> viaje : listaViajes.entrySet()) {
+			if (comprobarViaje(viaje.getValue(), viaje.getKey(), viaje.getValue().getFecha())) {
+				s = s + viaje.toString();
+			}
+		}
+
+		return s;
 	}
 
 }

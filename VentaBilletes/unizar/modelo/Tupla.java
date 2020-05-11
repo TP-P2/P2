@@ -1,11 +1,16 @@
 /**
  * Tupla.java
- *   
+ * 
+ * Cristian Bogdan Bucutea & Borja Rando Jarque
+ * 
+ * 03/2020
+ * 
  */
+
 package modelo;
 
 /**
- *  Tupla genérica de dos objetos
+ * Tupla genérica de cuatro objetos
  * 
  */
 public class Tupla<A, B, C, D> {
@@ -13,6 +18,7 @@ public class Tupla<A, B, C, D> {
   public final B b;
   public final C c;
   public final D d;
+  
   /**
    *  Construye una tupla
    *  
